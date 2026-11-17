@@ -49,7 +49,12 @@
     <a id="direct-link" class="btn-direct" href="#" style="display:none;">Abrir sistema de turnos</a>
   </div>
 
-  <iframe id="app-frame" allow="clipboard-write"></iframe>
+  <iframe 
+    id="app-frame" 
+    allow="clipboard-write" 
+    sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+    credentialless>
+  </iframe>
 
   <script>
     const URL_APPS_SCRIPT = "__APPS_SCRIPT_URL__";
