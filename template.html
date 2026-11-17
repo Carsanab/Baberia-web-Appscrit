@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Barber Cut — Reservá tu turno</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c11; }
+    iframe {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="app-frame" allow="clipboard-write"></iframe>
+
+  <script>
+    const URL_APPS_SCRIPT = "__APPS_SCRIPT_URL__";
+
+    const params = new URLSearchParams(window.location.search);
+    const vista = params.get("view") === "admin" ? "admin" : "cliente";
+
+    if (vista === "admin") {
+      document.title = "The Barber Cut — Panel Admin";
+    }
+
+    document.getElementById("app-frame").src = URL_APPS_SCRIPT + "?view=" + vista;
+  </script>
+</body>
+</html>
