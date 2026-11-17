@@ -7,17 +7,48 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c11; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c11; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f2f0ea; }
     iframe {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       border: none;
+      z-index: 2;
+    }
+    .fallback {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      gap: 16px;
+    }
+    .fallback p { color: #9aa1b8; font-size: 0.92rem; max-width: 320px; }
+    .btn-direct {
+      display: inline-block;
+      padding: 13px 24px;
+      background: #e94560;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
     }
   </style>
 </head>
 <body>
+  <!-- Respaldo visible solo si el navegador bloquea el iframe -->
+  <div class="fallback">
+    <div style="font-size: 2.4rem;">✂️</div>
+    <p>Cargando sistema de turnos…</p>
+    <a id="direct-link" class="btn-direct" href="#" style="display:none;">Abrir sistema de turnos</a>
+  </div>
+
   <iframe id="app-frame" allow="clipboard-write"></iframe>
 
   <script>
@@ -25,12 +56,18 @@
 
     const params = new URLSearchParams(window.location.search);
     const vista = params.get("view") === "admin" ? "admin" : "cliente";
+    const destino = URL_APPS_SCRIPT + "?view=" + vista;
 
     if (vista === "admin") {
       document.title = "The Barber Cut — Panel Admin";
     }
 
-    document.getElementById("app-frame").src = URL_APPS_SCRIPT + "?view=" + vista;
+    document.getElementById("app-frame").src = destino;
+    const link = document.getElementById("direct-link");
+    link.href = destino;
+
+    // Si en 4 segundos el navegador bloqueó el iframe, muestra el botón directo
+    setTimeout(() => { link.style.display = "inline-block"; }, 4000);
   </script>
 </body>
 </html>
