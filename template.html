@@ -60,10 +60,11 @@
     const URL_APPS_SCRIPT = "__APPS_SCRIPT_URL__";
 
     const params = new URLSearchParams(window.location.search);
-    const vista = params.get("view") === "admin" ? "admin" : "cliente";
+    const esAdmin = window.location.pathname.startsWith("/admin") || params.get("view") === "admin";
+    const vista = esAdmin ? "admin" : "cliente";
     const destino = URL_APPS_SCRIPT + "?view=" + vista;
 
-    if (vista === "admin") {
+    if (esAdmin) {
       document.title = "The Barber Cut — Panel Admin";
     }
 
